@@ -34,7 +34,8 @@ jobs:
           ContainerRegistry: $(containerRegistry)
           ImageName: $(imageName)
           Tag: $(tag)
-          ImageIdVar: '$(imageVar)
+          ImageIdVar: $(imageVar)
+
       # Call update docs ci script to onboard packages
       - task: Powershell@2
         inputs:
