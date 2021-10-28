@@ -1,0 +1,24 @@
+parameters: 
+  - name: ContainerRegistryClientId
+    type: string
+  - name: ContainerRegistryClientSecret
+    type: string
+  - name: ContainerRegistry
+    type: string
+  - name: ImageName
+    type: string
+  - name: Tag
+    type: string
+    default: 'latest'
+  - name: ImageIdVar
+    type: string
+
+steps:
+- pwsh: |
+    docker login $(containerRegistry) -u "${{ parameters.ContainerRegistryClientId }}" -p "${{ parameters.ContainerRegistryClientSecret }}"
+  displayName: Login container registry
+- pwsh: |
+    $imageId = '${{ parameters.ContainerRegistry }}/${{ parameters.ImageName }}:${{ parameters.Tag }}'
+    docker pull $imageId
+    Write-Host "##vso[task.setvariable variable=${{ parameters.ImageIdVar}}]$imageId"
+  displayName: Pull docker image ${{ parameters.ImageName }}
