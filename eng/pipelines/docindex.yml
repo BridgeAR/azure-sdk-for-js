@@ -34,14 +34,14 @@ jobs:
           ContainerRegistry: $(containerRegistry)
           ImageName: $(imageName)
           Tag: $(tag)
-          ImageIdVar: $(imageVar)
+          
 
       # Call update docs ci script to onboard packages
       - task: Powershell@2
         inputs:
           pwsh: true
           filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-          arguments: -DocRepoLocation $(DocRepoLocation)
+          arguments: -DocRepoLocation $(DocRepoLocation) -ImageId '$(containerRegistry)/$(imageName):$(tag)'
         displayName: Update Docs Onboarding
         condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
           
@@ -74,7 +74,7 @@ jobs:
         inputs:
           pwsh: true
           filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-          arguments: -DocRepoLocation $(DocRepoLocation)
+          arguments: -DocRepoLocation $(DocRepoLocation) -ImageId '$(containerRegistry)/$(imageName):$(tag)'
         displayName: Update Docs Onboarding for Daily branch
 
       - template: /eng/common/pipelines/templates/steps/git-push-changes.yml

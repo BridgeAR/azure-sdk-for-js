@@ -30,7 +30,10 @@ param (
   [string] $DocRepoLocation, # the location of the cloned doc repo
 
   [Parameter(Mandatory = $false)]
-  [string] $PackageSourceOverride
+  [string] $PackageSourceOverride,
+
+  [Parameter(Mandatory = $false)]
+  [string] $ImageId
 )
 
 . (Join-Path $PSScriptRoot common.ps1)
@@ -128,7 +131,7 @@ function GetDocsMetadata() {
 
   return $outputMetadata
 }
-
+Write-Host "Sima: $ImageId"
 if ($UpdateDocsMsPackagesFn -and (Test-Path "Function:$UpdateDocsMsPackagesFn")) {
 
   try {

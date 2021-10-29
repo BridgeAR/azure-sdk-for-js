@@ -17,10 +17,9 @@ function GetResult($success, $package, $output) {
   return @{ Success = $success; Package = $package; Output = $output }
 }
 
-$image = "$($env:IMAGEID)"
-
-Write-Host "docker run --restart=on-failure:3 -e TARGET_PACKAGE="$($Package.name)" $image"
-$installOutput = docker run --restart=on-failure:3 -e TARGET_PACKAGE="$($Package.name)" $image 2>&1
+Write-Host "Image: $using:ImageId"
+Write-Host "docker run --restart=on-failure:3 -e TARGET_PACKAGE='$($Package.name)' $using:ImageId"
+$installOutput = docker run --restart=on-failure:3 -e TARGET_PACKAGE="$($Package.name)" $using:ImageId 2>&1
 
 # The docker exit codes: https://docs.docker.com/engine/reference/run/#exit-status
 if ($LASTEXITCODE -eq 125 -Or $LASTEXITCODE -eq 126 -Or $LASTEXITCODE -eq 127) {
