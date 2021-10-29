@@ -131,7 +131,7 @@ function GetDocsMetadata() {
 
   return $outputMetadata
 }
-Write-Host "Sima: $ImageId"
+
 if ($UpdateDocsMsPackagesFn -and (Test-Path "Function:$UpdateDocsMsPackagesFn")) {
 
   try {
